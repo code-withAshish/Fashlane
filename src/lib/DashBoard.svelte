@@ -5,7 +5,6 @@
   let password = "ashish";
 
   function copyToClipboard() {
-    alert(checkBoxValue);
     navigator.clipboard.writeText(password);
     document.getElementById("copyButton").innerHTML = "Password Copied";
     setTimeout(() => {
