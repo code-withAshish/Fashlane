@@ -1,13 +1,13 @@
-import { object, number, boolean } from "zod";
+import { object, number, string } from "zod";
 
 const schema = object({
-  length: number()
+  Length: number()
     .min(4, "Minimum length is 4")
     .max(40, "Maximum length is 40"),
-  uppercase: boolean().optional(),
-  lowercase: boolean().optional(),
-  numbers: boolean().optional(),
-  symbols: boolean().optional(),
+  Uppercase: string().optional(),
+  Lowercase: string().optional(),
+  Numbers: string().optional(),
+  Symbols: string().optional(),
 });
 
 export const handler = async (event) => {
@@ -23,11 +23,11 @@ export const handler = async (event) => {
     const symbols = "!@#$%^&*()";
     var chars = "abcdefghijklmnopqrstuvwxyz";
 
-    if (data.uppercase) chars += uppercase;
-    if (data.numbers) chars += numbers;
-    if (data.symbols) chars += symbols;
+    if (data.Uppercase) chars += uppercase;
+    if (data.Numbers) chars += numbers;
+    if (data.Symbols) chars += symbols;
 
-    for (var i = 0; i <= data.length; i++) {
+    for (var i = 0; i <= data.Length; i++) {
       var randomNumber = Math.floor(Math.random() * chars.length);
       password += chars.substring(randomNumber, randomNumber + 1);
     }

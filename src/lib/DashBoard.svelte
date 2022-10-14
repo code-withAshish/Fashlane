@@ -1,14 +1,9 @@
 <script>
-  import CheckBox from "./CheckBox.svelte";
-
-  let checkboxesArray = [
-    { text: "Uppercase", value: "up" },
-    { text: "Lowercase", value: "lo" },
-    { text: "Symbol", value: "sy" },
-    { text: "Number", value: "nu" },
-  ];
-  let length = 10;
+  let checkboxesArray = ["Uppercase", "Lowercase", "Symbols", "Numbers"];
+  let checkBoxValue = [];
+  let Length = 10;
   let password = "ashish";
+
   function copyToClipboard() {
     navigator.clipboard.writeText(password);
     document.getElementById("copyButton").innerHTML = "Password Copied";
@@ -16,10 +11,19 @@
       document.getElementById("copyButton").innerHTML = "Copy Password";
     }, 3000);
   }
+
+  async function fetchData() {
+    const res = await fetch(".netlify/functions/getPassword", {
+      method: "POST",
+      body: JSON.stringify({ Length, ...checkBoxValue }),
+    });
+    const data = await res.json();
+    password = data.password;
+  }
 </script>
 
 <main
-  class="{length < 8
+  class="{Length < 8
     ? 'bg-rose-600'
     : 'bg-green-600'} w-full flex flex-col space-y-10 p-16 m-10 rounded-md transition-colors ease-in-out duration-200"
 >
@@ -50,21 +54,38 @@
       Copy Password
     </button>
   </div>
-  <p class=" font-semibold text-lg">Length ({length})</p>
+  <p class=" font-semibold text-lg">Length ({Length})</p>
   <input
     type="range"
     name="length"
     step="1"
     min="4"
     max="40"
-    bind:value={length}
+    bind:value={Length}
     class="appearance-none w-full h-1 rounded-full outline-none transition-all ease-in-out slider-thumb"
   />
 
   <div class="flex flex-col md:flex-row align-baseline md:space-x-6">
     {#each checkboxesArray as c}
-      <CheckBox text={c.text} value={c.value} />
+      <label class="text-lg" for="{c}}">
+        <input
+          type="checkbox"
+          bind:group={checkBoxValue}
+          value={c}
+          id={c}
+          name={c}
+          class="accent-indigo-700 transition-colors ease-linear w-4 h-4"
+        />
+        {c}
+      </label>
     {/each}
+  </div>
+  <div class="justify-center flex">
+    <button
+      on:click={fetchData}
+      class="bg-white text-green-600 font-semibold p-3 w-min rounded-md active:scale-75 transition-all ease-in-out duration-300"
+      >Generate</button
+    >
   </div>
 </main>
 
