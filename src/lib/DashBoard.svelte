@@ -33,7 +33,7 @@
 <main
   class="{Length < 8
     ? 'bg-rose-600'
-    : 'bg-green-600'}  rounded-md transition-colors ease-in-out duration-200 m-2 h-min md:w-full"
+    : 'bg-green-600'}  rounded-md transition-colors ease-in-out duration-200 m-2 h-min md:w-full font-sans"
 >
   <div class=" flex flex-col space-y-10 p-16 custom">
     <p class="text-3xl font-extrabold uppercase">Fashlane</p>
@@ -57,6 +57,7 @@
       </p>
       <button
         id="copyButton"
+        disabled={password !== ""}
         on:click={copyToClipboard}
         class="p-3 bg-white {Length < 8
           ? 'text-rose-500'
