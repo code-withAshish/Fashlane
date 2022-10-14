@@ -6,7 +6,7 @@
 
 [dev]
   command = "yarn dev" # Command to start your dev server
-  port = 5137 # Port that the dev server will be listening on
+  targetPort = 5173 # Port that the dev server will be listening on
   publish = "dist" # Folder with the static content for _redirect file
 
   ## more info on configuring this file: https://docs.netlify.com/configure-builds/file-based-configuration/

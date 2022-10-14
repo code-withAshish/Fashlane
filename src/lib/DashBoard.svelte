@@ -5,6 +5,7 @@
   let password = "ashish";
 
   function copyToClipboard() {
+    alert(checkBoxValue);
     navigator.clipboard.writeText(password);
     document.getElementById("copyButton").innerHTML = "Password Copied";
     setTimeout(() => {
@@ -12,10 +13,18 @@
     }, 3000);
   }
 
+  function postData() {
+    let data = { Length };
+    checkBoxValue.map((x) => {
+      data[x] = x;
+    });
+    return data;
+  }
+
   async function fetchData() {
     const res = await fetch(".netlify/functions/getPassword", {
       method: "POST",
-      body: JSON.stringify({ Length, ...checkBoxValue }),
+      body: JSON.stringify(postData()),
     });
     const data = await res.json();
     password = data.password;
@@ -40,7 +49,7 @@
     class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:justify-between p-4"
   >
     <p class="text-xl font-medium transition-all ease-out duration-300">
-      {#if length < 8}
+      {#if Length < 8}
         Weak Password!!!
       {:else}
         Strong Password
