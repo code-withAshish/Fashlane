@@ -57,7 +57,6 @@
       </p>
       <button
         id="copyButton"
-        disabled={password !== ""}
         on:click={copyToClipboard}
         class="p-3 bg-white {Length < 8
           ? 'text-rose-500'
