@@ -1,21 +1,23 @@
-const zod = require("zod");
+import { object, number, boolean } from "zod";
 
-const schema = zod.object({
-  length: zod
-    .number()
+const schema = object({
+  length: number()
     .min(4, "Minimum length is 4")
     .max(40, "Maximum length is 40"),
-  uppercase: zod.boolean().optional(),
-  lowercase: zod.boolean().optional(),
-  numbers: zod.boolean().optional(),
-  symbols: zod.boolean().optional(),
+  uppercase: boolean().optional(),
+  lowercase: boolean().optional(),
+  numbers: boolean().optional(),
+  symbols: boolean().optional(),
 });
 
-const handler = async (event) => {
+export const handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
   try {
     const postBody = JSON.parse(event.body);
     const data = schema.parse(postBody);
-    var password;
+    var password = "";
     const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numbers = "0123456789";
     const symbols = "!@#$%^&*()";
@@ -37,5 +39,3 @@ const handler = async (event) => {
     return { statusCode: 500, body: error.toString() };
   }
 };
-
-module.exports = { handler };
