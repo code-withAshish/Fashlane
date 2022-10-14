@@ -7,8 +7,15 @@
     { text: "Symbol", value: "sy" },
     { text: "Number", value: "nu" },
   ];
-
   let length = 10;
+  let password = "ashish";
+  function copyToClipboard() {
+    navigator.clipboard.writeText(password);
+    document.getElementById("copyButton").innerHTML = "Password Copied";
+    setTimeout(() => {
+      document.getElementById("copyButton").innerHTML = "Copy Password";
+    }, 3000);
+  }
 </script>
 
 <main
@@ -19,6 +26,7 @@
   <p class="text-3xl font-extrabold uppercase">Fashlane</p>
 
   <input
+    bind:value={password}
     placeholder="Password"
     readonly
     class="bg-transparent w-full font-mono outline-none border-b-2 p-2 placeholder:text-white placeholder:opacity-50 text-3xl"
@@ -35,8 +43,9 @@
       {/if}
     </p>
     <button
-      type="submit"
-      class="p-3 bg-white text-green-500 font-medium rounded-md w-fit active:scale-90 transition-all ease-in-out"
+      id="copyButton"
+      on:click={copyToClipboard}
+      class="p-3 bg-white text-green-500 font-medium rounded-md w-fit active:scale-90 transition-all ease-in-out duration-300"
     >
       Copy Password
     </button>
